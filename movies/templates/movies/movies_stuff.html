@@ -1,26 +1,57 @@
 <<!DOCTYPE html>
+{% load static %}
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="Description" content="Enter your description here"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.0/cosmo/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-<link rel="stylesheet" href="assets/css/style.css">
-<title>Title</title>
-</head>
-<body>
-    <form action="" name="search">
-        <input type="text" name="query" value="{{request.GET.query}}">
-        <input type="submit" value="Search">
-    </form>
-    {% for movie in search_result %}
-    <p>{{movie.name}}</p>
-    <img src="{{movie.picture}}" alt=""/>
-    {% endfor %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="Description" content="Enter your description here"/>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.0/animate.min.css">
+        <link rel="stylesheet" href="{% static 'movies/app.css' %}" type="text/css">
+        <title>Movie App</title>
+    </head>
+    <body>
+        <div class="Wrapper">
+            <nav class="nav">
+    			<div class="container">
+    				<div class="nav__menu">
+    					<a class="nav__header" href="/">My Movies</a>
+                        <div class="col-md-5 pull-right">
+                        	<form name="search" action="" class="form-inline">
+                        		<div class="form-group">
+                        			<input type="text" name="query" class="form-control" value="{{request.GET.query}}" />
+                                    <input type="submit" class="btn btn-primary" value="Search" />
+                        		</div>
+                        	</form>
+                        </div>
+    				</div>
+    			</div>
+            </nav>
+
+            <section class="result">
+            	<div class="container">
+            		<div class="movies">
+            			{% for movie in search_result %}
+                            <div class="movies__item">
+                                <i class="movies__item-star fa fa-star hide"></i>
+                                <p class="movies__item-rating hide">{{ movie.rating }}/10</p>
+                            	<img class="movies__item-image" src="{{ movie.picture }}" alt="" />
+                                <div class="movies__item-title">
+                                	<p>{{ movie.name }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+            		</div>
+            	</div>
+            </section>
+
+
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script src="{% static 'movies/app.js' %}"></script>
+    </body>
 </html>
