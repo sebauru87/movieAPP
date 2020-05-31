@@ -10,4 +10,22 @@ def home_page(request):
     return render(request, 'movies/movies_stuff.html', stuff_for_frontend)
 
 def create(request):
+    if request.method == 'POST':
+        data = {
+            'name' : request.POST.get('name'),
+            'picture' : request.POST.get('picture'),
+            'rating' : int(request.POST.get('rating')),
+            'notes' : request.POST.get('notes')
+        }
+        try:
+            response = Movie.objects.create(
+                name=data.get('name'),
+                picture=data.get('picture'),
+                rating=data.get('rating'),
+                notes=data.get('notes')
+            )
+        except Exception as e:
+            print(e)
+            pass
+
     return redirect('/')
