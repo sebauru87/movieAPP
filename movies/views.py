@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-
 from .models import Movie
+from django.contrib import messages
 # Create your views here.
 
 def home_page(request):
@@ -24,8 +24,9 @@ def create(request):
                 rating=data.get('rating'),
                 notes=data.get('notes')
             )
+            messages.success(request, "New movie added:{}".format(data.get('name')))
         except Exception as e:
-            print(e)
+            messages.warning(request, "Error trying to create new movie {}".format(e))
             pass
 
     return redirect('/')
@@ -45,17 +46,20 @@ def edit(request, movie_id):
             movie_object.rating = data.get('rating')
             movie_object.notes = data.get('notes')
             movie_object.save()
+            messages.success(request, "Successfully updated: {}".format(data.get('name')))
         except Exception as e:
-            print(e)
+            messages.warning(request, "Error when trying to update {data.get('name')}")
             pass
     return redirect('/')
 
 def delete(request, movie_id):
     try:
         movie_object = Movie.objects.get(id=movie_id)
+        movie_name = movie_object.name
         movie_object.delete()
+        messages.success(request, "Movie deleted:{}".format(movie_name))
     except  Exception as e:
-        print(e)
+        messages.warning(request, "Error when trying to delete: {}".format(movie_name))
         pass
     return redirect('/')
 
